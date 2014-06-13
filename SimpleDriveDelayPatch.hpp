@@ -70,8 +70,10 @@ public:
     float y = 0;
       
     int size = buffer.getSize();
+
     for (int n = 0; n < size; n++)
     {
+
         y = (delayBuffer.read(delay)*(size-1-n) + delayBuffer.read(newDelay)*n)/size + x[n];
    
         y = nonLinear(y * 1.5);

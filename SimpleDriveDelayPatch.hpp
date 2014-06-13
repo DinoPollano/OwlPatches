@@ -30,7 +30,7 @@
 
 #include "StompBox.h"
 #include "CircularBuffer.hpp"
-f
+
 #define REQUEST_BUFFER_SIZE 32768
 
 class SimpleDriveDelayPatch : public Patch {
@@ -49,7 +49,7 @@ public:
     registerParameter(PARAMETER_D, "Wet/Dry ");
     AudioBuffer* buffer = createMemoryBuffer(1, REQUEST_BUFFER_SIZE);
     delayBuffer.initialise(buffer->getSamples(0), buffer->getSize());
-      }
+    }
   void processAudio(AudioBuffer &buffer)
   {
     float delayTime, feedback, wetDry,drive;
@@ -57,23 +57,18 @@ public:
     feedback  = getParameterValue(PARAMETER_B);
     drive     = getParameterValue(PARAMETER_C);
     wetDry    = getParameterValue(PARAMETER_D);
-     
-     
-       drive += 0.03;
-        drive *= 40;
+    drive += 0.03;
+    drive *= 40;
 
       
     int newDelay;
     newDelay = delayTime * (delayBuffer.getSize()-1);
-      
     float* x = buffer.getSamples(0);
     float y = 0;
-      
     int size = buffer.getSize();
-
+      
     for (int n = 0; n < size; n++)
     {
-
         y = (delayBuffer.read(delay)*(size-1-n) + delayBuffer.read(newDelay)*n)/size + x[n];
    
         y = nonLinear(y * 1.5);
@@ -90,7 +85,8 @@ public:
     delay=newDelay;
   }
     
-    float nonLinear(float x){ 		// Overdrive curve
+    float nonLinear(float x) // Overdrive curve
+    {
         if (x<-3)
             return -1;
         else if (x>3)
